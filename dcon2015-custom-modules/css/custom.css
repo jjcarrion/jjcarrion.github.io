@@ -1,0 +1,9 @@
+.reveal section img {
+  border: none;
+}
+body {
+  background-image: url('../img/wunderkraut.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: top right;
+}
