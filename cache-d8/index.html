@@ -47,7 +47,7 @@
         <section>
             <h1>Cache in Drupal 8</h1>
 
-            <h3>DISCLAIMER: This is my experience as a developer, maybe I'm not the best to show this.</h3>
+            <h3>DISCLAIMER: I want to share my experience as a developer, but the ops team knows much better how all this work.</h3>
             <p>
                 <small>Jose Jiménez</a> / <a
                         href="http://twitter.com/jjcarrion">@jjcarrion</a>
@@ -57,12 +57,6 @@
 
         <!-- Example of nested vertical slides -->
         <section>
-            <section>
-                <cite>
-                    There are only two hard things in Computer Science: cache invalidation and naming things.
-                </cite>
-                    -- Phil Karlton
-            </section>
             <section>
                 <h3>Drupal 8 comes with caching enabled by default.</h3>
                 <p>Great news!! ...but as a developer, you have to clear cache for
@@ -157,7 +151,7 @@ class HelloUsername extends BlockBase {
             </section>
         <section>
             <section>
-                <h3>Cache types:</h3>
+                <h3>Types of cache:</h3>
                 <ul>
                     <li>Page cache
                         <ul>
@@ -177,11 +171,11 @@ class HelloUsername extends BlockBase {
             </section>
             <section>
                 <h3>Dynamic page cache</h3>
-                <h4>Cacheability metadata</h4>
+                <h4><a href="https://www.drupal.org/developing/api/8/render/arrays/cacheability">Cacheability metadata</a></h4>
                 <ul>
-                    <li>Cache tags: Depending on other things: nodes, users...</li>
-                    <li>Cache context: Depending on the contexts you can have different version of an object</li>
-                    <li>Max age: ttl (time to live)</li>
+                    <li><a href="https://www.drupal.org/developing/api/8/cache/tags"> Cache tags:</a> Depending on other things: nodes, users...</li>
+                    <li><a href="https://www.drupal.org/developing/api/8/cache/contexts">Cache context:</a> Depending on the contexts you can have different version of an object</li>
+                    <li><a href="https://www.drupal.org/developing/api/8/cache/max-age">Max age</a>: ttl (time to live)</li>
                 </ul>
             </section>
             <section>
@@ -208,7 +202,7 @@ class HelloUsername extends BlockBase {
                 <h3>Some examples</h3>
                 <pre><code class="php">public function build() {
     $build = [];
-    $message = \Drupal::config('tapwell_layout.footer_settings')->get('message');
+    $message = \Drupal::config('project_layout.footer_settings')->get('message');
     $message = check_markup($message['value'], $message['format']);
     $build['message'] = array(
       '#type' => 'inline_template',
@@ -217,7 +211,7 @@ class HelloUsername extends BlockBase {
         'message' => $message,
       ),
       '#cache' => array(
-        'tags' => ['config:tapwell_layout.footer_settings'],
+        'tags' => ['config:project_layout.footer_settings'],
       ),
     );
 
@@ -263,18 +257,45 @@ class HelloUsername extends BlockBase {
       ),
     );</code></pre>
         </section>
+            </section>
+        <section>
             <section>
+                <h3>Something to investigate</h3>
+                <h4>Big pipe in core as an experimental module since 8.1.0</h4>
+                <p>Based on placeholder for lazy buildings</p>
+                <pre><code class="php">
+#create_placehooder = TRUE
 
-                example: random number
+#lazy_builder = [...,....]
+                </code></pre>
 
-                Placeholder for lazy buildings
-                #create_placehooder = TRUE
-
-                #lazy_builder = [...,....]
                 auto_placeholder_conditions in service.yml
+            </section>
+            <section>
+                <p>Method addCacheableDependency() from the RendererInterface</p>
+                <pre><code class="php">  public function build() {
+    $build = [
+      'username' => [
+        '#type' => 'html_tag',
+        '#tag' => 'span',
+        '#value' => $this->t(
+          'Hello %username!',
+          ['%username' => \Drupal::currentUser()->getDisplayName()]
+        ),
+      ],
+    ];
+
+    $this->renderer->addCacheableDependency($build, $user);
+    return $build;
+  }
+                </code></pre>
             </section>
         </section>
     <section>
+        <cite>
+            There are only two hard things in Computer Science: cache invalidation and naming things.
+        </cite>
+        -- Phil Karlton
         <h1>¡GRACIAS!</h1>
     </section>
     </div>
