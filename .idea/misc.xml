@@ -11,12 +11,6 @@
       <info name="Interpreter: Remote PHP 5.3" version="2.5.3" />
     </behat_settings>
   </component>
-  <component name="ComposerJsonPluginSettings">
-    <unboundedVersionInspectionSettings>
-      <excludedPackages />
-    </unboundedVersionInspectionSettings>
-    <customRepositories />
-  </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />

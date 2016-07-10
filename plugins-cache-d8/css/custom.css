@@ -1,0 +1,7 @@
+.reveal section img {
+  border: none;
+}
+body {
+  background: url("../img/slide-interior.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
